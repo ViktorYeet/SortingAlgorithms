@@ -5,8 +5,9 @@ public class Main {
     /**
      * Sort an array by finding the largest element and swapping it with the last unsorted element of the array.
      * Modifies the array in place
+     * @param array
      */
-    public static void SelectionSort(Comparable[] array) {
+    public static <T extends Comparable<T>> void SelectionSort(T[] array) {
         int high = array.length - 1;
 
         while (high > 0) {
@@ -21,14 +22,36 @@ public class Main {
                 continue;
             }
             //swap the last
-            Comparable temp = array[indexlargest];
+            T temp = array[indexlargest];
             array[indexlargest] = array[high];
             array[high] = temp;
             high--;
         }
     }
 
-    public static void InsertionSort() {}
+    /**
+     * Sort an array by looking at the first two elements put them in order then take the next element and slide it into the correct place.
+     * Modifies the array in place
+     * @param array
+     */
+    public static <T extends Comparable<T>> void InsertionSort(T[] array) {
+        for (int i = 1; i < array.length; i++) {
+            for (int j = i; j > 0 && array[j].compareTo(array[j-1]) < 0; j--) {
+                T temp = array[j];
+                array[j] = array[j-1];
+                array[j-1] = temp;
+            }
+        }
+    }
+
+    /**
+     * Sort an array by divide and conquer, split the list in half recursively until we have single elements in the segments, feed back into the original array in sorted order.
+     * Modifies the array in place
+     * @param array
+     */
+    public static <T extends Comparable<T>> void MergeSort(T[] array) {
+        MergeSortHelper(array, 0, array.length - 1);
+    }
 
     public static void MergeSort() {}
 
