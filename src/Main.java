@@ -1,3 +1,5 @@
+import jdk.jshell.spi.ExecutionControl;
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -58,7 +60,7 @@ public class Main {
      * @param array comparable array
      * @param low lowerbound to be included in this segment
      * @param high upperbound to be included in this segment
-     * @return
+     * @return Sorted segment
      * @param <T> Comparable
      */
     private static <T extends Comparable<T>> T[] MergeSortHelper(T[] array, int low, int high) {
@@ -91,7 +93,9 @@ public class Main {
         return answer;
     }
 
-    public static void QuickSort() {}
+    public static void QuickSort() {
+        //TODO: create an implementation
+    }
 
     public static void main(String[] args) {
         Random rand = new Random();
