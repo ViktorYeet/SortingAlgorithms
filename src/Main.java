@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 
 public class Main {
@@ -14,6 +15,10 @@ public class Main {
             for (int i = 1; i <= high; i++) {
                 int cmp = array[indexlargest].compareTo(array[i]);
                 if (cmp < 0) indexlargest = i;
+            }
+            if(indexlargest == high) {
+                high--;
+                continue;
             }
             //swap the last
             Comparable temp = array[indexlargest];
@@ -38,6 +43,7 @@ public class Main {
 
 
         SelectionSort(smallArray);
-
+        SelectionSort(smallArray);
+        System.out.println(Arrays.toString(smallArray));
     }
 }
