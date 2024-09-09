@@ -50,10 +50,43 @@ public class Main {
      * @param array
      */
     public static <T extends Comparable<T>> void MergeSort(T[] array) {
-        MergeSortHelper(array, 0, array.length - 1);
+        System.arraycopy(MergeSortHelper(array, 0, array.length - 1), 0, array, 0, array.length); // wanted to make it modify and not return
     }
 
-    public static void MergeSort() {}
+    /**
+     * Recursive implementation of merge sort
+     * @param array
+     * @param low
+     * @param high
+     * @return
+     * @param <T>
+     */
+    private static <T extends Comparable<T>> T[] MergeSortHelper(T[] array, int low, int high) {
+        //fracture the array
+        int mid = (low + high) / 2;
+        T[] array1;
+        T[] array2;
+        if(low < high) {
+            array1 = MergeSortHelper(array, low, mid);
+            array2 = MergeSortHelper(array, mid + 1, high);
+        }
+        //if low >= high then the array is either empty or contains 1 element
+        else return (T[])new Comparable[]{array[low]};
+
+        // Merge the two segments and return the resulting array
+        T[] answer = (T[]) new Comparable[high - low + 1];
+        int answerPointer = 0;
+        int i = 0, j = 0;
+        while (i < array1.length && j < array2.length) { // compare and insert the lower element into answer array
+            int cmp = array1[i].compareTo(array2[j]);
+            if (cmp <= 0) answer[answerPointer++] = array1[i++];
+            else answer[answerPointer++] = array2[j++];
+        }
+        // one of the two segments are empty so we can safely add the remaining elements
+        while (j >= array2.length && i < array1.length) answer[answerPointer++] = array1[i++];
+        while (j < array2.length) answer[answerPointer++] = array2[j++];
+        return answer;
+    }
 
     public static void QuickSort() {}
 
@@ -65,8 +98,8 @@ public class Main {
         Integer[] bigArray = rand.ints(1000,0, 1000).boxed().toArray(Integer[]::new);
 
 
-        SelectionSort(smallArray);
-        SelectionSort(smallArray);
+        MergeSort(smallArray);
+//        MergeSort(smallArray);
         System.out.println(Arrays.toString(smallArray));
     }
 }
