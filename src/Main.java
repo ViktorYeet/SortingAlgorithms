@@ -1,5 +1,3 @@
-import jdk.jshell.spi.ExecutionControl;
-
 import java.util.Arrays;
 import java.util.Random;
 
@@ -24,9 +22,7 @@ public class Main {
                 continue;
             }
             //swap the last
-            T temp = array[indexlargest];
-            array[indexlargest] = array[high];
-            array[high] = temp;
+            swap(array, indexlargest, high);
             high--;
         }
     }
@@ -39,9 +35,7 @@ public class Main {
     public static <T extends Comparable<T>> void InsertionSort(T[] array) {
         for (int i = 1; i < array.length; i++) {
             for (int j = i; j > 0 && array[j].compareTo(array[j-1]) < 0; j--) {
-                T temp = array[j];
-                array[j] = array[j-1];
-                array[j-1] = temp;
+                swap(array, j, j-1);
             }
         }
     }
@@ -93,8 +87,62 @@ public class Main {
         return answer;
     }
 
-    public static void QuickSort() {
-        //TODO: create an implementation
+    /**
+     * Sort an array by taking a pivot element, go from both ends of the array and swap elements so that the first segment
+     * contains elements that are less than the pivot and the last segment contains values that are higher than the pivot.
+     * when the first
+     *
+     * @param array a Comparable array
+     */
+    public static <T extends Comparable<T>> void QuickSort(T[] array) {
+        //chose pivot
+        int low = 0;
+        int high = array.length - 1;
+        partition(array, low, high);
+    }
+
+    public static <T extends Comparable<T>> void partition(T[] array, int low, int high) {
+        //if the partition contains 1 or 0 elements return
+        if(low >= high) return;
+
+        //select the pivot
+        int pivotIndex = (low + high) / 2;
+        int start = low++;
+        int end = high;
+        //swap the first element and the pivot
+        swap(array, pivotIndex, start);
+
+        while (low <= high) {
+            //increase low until we find a value that is greater than the pivot or until we have passed high
+            while (low <= high && array[start].compareTo(array[low]) >= 0) {
+                low++;
+            }
+            //decrease high until we find a value that is lesser than the pivot or until we have passed low
+            while (high >= low && array[start].compareTo(array[high]) <= 0) {
+                high--;
+            }
+            //if high has passed low swap back pivot value with high otherwise swap low with high
+            if (low > high) {
+                swap(array, start, high);
+                break;
+            }
+            else swap(array, low, high);
+        }
+        partition(array, start, high - 1);
+        partition(array, low, end);
+    }
+
+    /**
+     * Swap the values located at index1 and index2
+     * @param array Array of comparable elements in which the swap occurs
+     * @param index1 Index of first element to be swapped
+     * @param index2 Index of last element to be swapped
+     * @param <T> Comparable
+     */
+    public static <T extends Comparable<T>>void swap(T[] array, int index1, int index2) {
+        T temp = array[index1];
+        array[index1] = array[index2];
+        array[index2] = temp;
     }
 
     public static void main(String[] args) {
@@ -105,7 +153,7 @@ public class Main {
         Integer[] bigArray = rand.ints(1000,0, 1000).boxed().toArray(Integer[]::new);
 
 
-        MergeSort(bigArray);
+        QuickSort(bigArray);
 //        MergeSort(bigArray);
         System.out.println(Arrays.toString(bigArray));
     }
