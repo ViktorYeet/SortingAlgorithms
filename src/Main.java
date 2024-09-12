@@ -101,7 +101,14 @@ public class Main {
         partition(array, low, high);
     }
 
-    public static <T extends Comparable<T>> void partition(T[] array, int low, int high) {
+    /**
+     * Recursive part of Quicksort algorithm
+     * @param array a Comparable array
+     * @param low index of the first included element in the partition
+     * @param high index of the last included element in the partition
+     * @param <T> Comparable
+     */
+    private static <T extends Comparable<T>> void partition(T[] array, int low, int high) {
         //if the partition contains 1 or 0 elements return
         if(low >= high) return;
 
